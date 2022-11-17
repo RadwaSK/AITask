@@ -1,0 +1,4 @@
+[core]
+    analytics = false
+['remote "remote_storage"']
+    url = gdrive://1pbPpf7H3Dzmp10S5C6cLEBqptRJ1z6z4
