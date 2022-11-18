@@ -1,27 +1,15 @@
 import argparse
 import os
-from pandas import __version__ as pd_ver
 import mlflow as ml
 from os.path import join
 import torch
-from torchvision import __version__ as tvs_ver
 from torch import optim
 import torch.nn as nn
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib import __version__ as mp_ver
 from utils import get_resnet_based_model, EarlyStopping, get_classes_dict, save_model
 from dataloader import get_train_val_dataloader
 from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score, confusion_matrix
-from sklearn import __version__ as sk_ver
-
-print('Torch V:', torch.__version__)
-print('TorchVision version:', tvs_ver)
-print('NumPy V:', np.__version__)
-print('MLFlow V:', ml.__version__)
-print('Matplotlib V:', mp_ver)
-print('Pandas V:', pd_ver)
-print('Sklearn V:', sk_ver)
 
 os.makedirs('saved_models', exist_ok=True)
 

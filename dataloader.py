@@ -28,7 +28,7 @@ def get_train_val_dataloader(train_csv_path='dataset/train.csv', val_csv_path='d
     return {'train': train_dataloader, 'validation': val_dataloader}
 
 
-def get_test_dataloader(test_csv_path='dataset/test_csv',  batch_size=4, input_size=224):
+def get_test_dataloader(test_csv_path='dataset/test.csv',  batch_size=4, input_size=224):
     test_transformer = transforms.Compose([
         transforms.ToPILImage(),
         transforms.ToTensor(),
