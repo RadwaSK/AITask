@@ -37,9 +37,12 @@ class ResNetModelWrapper(PythonModel):
         return None
 
 
-def get_classes_names(data_path='dataset/train'):
+def get_classes_dict(data_path='dataset/train'):
     classes = os.listdir(data_path)
-    return classes
+    classes_dict = {}
+    for i, c in enumerate(classes):
+        classes_dict[c] = i
+    return classes_dict
 
 
 class EarlyStopping:
