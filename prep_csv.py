@@ -28,8 +28,8 @@ for c in classes:
             val_data.append([file_path, c])
         counter += 1
 
-train_csv = pd.DataFrame(train_data, columns=['path', 'class']).sample(frac=1)
-val_csv = pd.DataFrame(val_data, columns=['path', 'class']).sample(frac=1)
+train_csv = pd.DataFrame(train_data, columns=['path', 'label']).sample(frac=1)
+val_csv = pd.DataFrame(val_data, columns=['path', 'label']).sample(frac=1)
 
 train_csv.to_csv('dataset/train.csv', index=False)
 val_csv.to_csv('dataset/val.csv', index=False)
@@ -43,5 +43,5 @@ for c in classes:
         file_path = os.path.join(path, f)
         test_data.append([file_path, c])
 
-test_csv = pd.DataFrame(test_data, columns=['path', 'class']).sample(frac=1)
+test_csv = pd.DataFrame(test_data, columns=['path', 'label']).sample(frac=1)
 test_csv.to_csv('dataset/test.csv', index=False)
