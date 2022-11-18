@@ -17,3 +17,9 @@ Setups used in this repo:
   * open ```localhost:8800``` in your browser
 * Docker image (to do), to run it:
   * docker ...
+
+
+## To prepare data:
+1. Move dataset into folder ```dataset```
+2. Either dvc pull data or run ```prep_csv.py```
+
