@@ -1,17 +1,13 @@
 from torch.utils.data import Dataset
 import pandas as pd
-from utils import get_classes_names
+from utils import get_classes_dict
 from torchvision.io import read_image
 
 
 class TrucksDataset(Dataset):
     def __init__(self, csv_file_path, transform):
         self.df = pd.read_csv(csv_file_path)
-        self.classes_dic = {}
-        classes = get_classes_names()
-        for i, c in enumerate(classes):
-            self.classes_dic[c] = i
-
+        self.classes_dic = get_classes_dict()
         self.transform = transform
 
     def __len__(self):

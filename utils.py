@@ -1,17 +1,11 @@
 import torch
 import os
-import torchvision
-import torch.nn as nn
 from mlflow.pyfunc import log_model
 from mlflow.utils import PYTHON_VERSION
-from mlflow.pyfunc import PythonModel
 import mlflow
-
-
-def get_classes_names(data_path='dataset/train'):
-    classes = os.listdir(data_path)
-    return classes
-
+import torchvision
+import torch.nn as nn
+from mlflow.pyfunc import PythonModel
 
 def get_resnet_based_model(freeze_resnet=False, CUDA=True, num_classes=8):
     model = torchvision.models.resnet50(weights='DEFAULT')
@@ -41,6 +35,14 @@ class ResNetModelWrapper(PythonModel):
     def predict(self, context, input_video_path):
         # TO DO !!!!
         return None
+
+
+def get_classes_dict(data_path='dataset/train'):
+    classes = os.listdir(data_path)
+    classes_dict = {}
+    for i, c in enumerate(classes):
+        classes_dict[c] = i
+    return classes_dict
 
 
 class EarlyStopping:
