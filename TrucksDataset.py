@@ -1,6 +1,7 @@
 from torch.utils.data import Dataset
 import pandas as pd
 from utils import get_classes_names
+from torchvision.io import read_image
 
 
 class TrucksDataset(Dataset):
@@ -19,10 +20,10 @@ class TrucksDataset(Dataset):
     def __getitem__(self, index):
         label = self.df.iloc[index, 1]
         label = self.classes_dic[label]
-        assert label.dtype == int
         assert 0 <= label < 8
 
         path = self.df.iloc[index, 0]
-        data = self.transform(path)
+        img = read_image(path)
+        data = self.transform(img)
         return data, label
 

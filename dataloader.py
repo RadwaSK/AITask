@@ -2,17 +2,20 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader, Subset
 from TrucksDataset import TrucksDataset
 
+
 def get_train_val_dataloader(train_csv_path='dataset/train.csv', val_csv_path='dataset/val.csv', batch_size=4, input_size=224):
     train_transformer = transforms.Compose([
+        transforms.ToPILImage(),
+        transforms.ToTensor(),
         transforms.Resize((input_size, input_size)),
         transforms.RandomHorizontalFlip(0.2),
-        transforms.ToTensor(),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ])
 
     val_transformer = transforms.Compose([
-        transforms.Resize((input_size, input_size)),
+        transforms.ToPILImage(),
         transforms.ToTensor(),
+        transforms.Resize((input_size, input_size)),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ])
 
@@ -27,8 +30,9 @@ def get_train_val_dataloader(train_csv_path='dataset/train.csv', val_csv_path='d
 
 def get_test_dataloader(test_csv_path='dataset/test_csv',  batch_size=4, input_size=224):
     test_transformer = transforms.Compose([
-        transforms.Resize((input_size, input_size)),
+        transforms.ToPILImage(),
         transforms.ToTensor(),
+        transforms.Resize((input_size, input_size)),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ])
 
