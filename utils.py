@@ -1,13 +1,46 @@
 import torch
 import os
+import torchvision
+import torch.nn as nn
 from mlflow.pyfunc import log_model
 from mlflow.utils import PYTHON_VERSION
+from mlflow.pyfunc import PythonModel
 import mlflow
 
 
 def get_classes_names(data_path='dataset/train'):
     classes = os.listdir(data_path)
     return classes
+
+
+def get_resnet_based_model(freeze_resnet=False, CUDA=True, num_classes=8):
+    model = torchvision.models.resnet50(weights='DEFAULT')
+
+    for param in model.parameters():
+        param.requires_grad = not freeze_resnet
+
+    num_ftrs = model.fc.in_features
+
+    model.fc = nn.Linear(num_ftrs, num_classes)
+
+    device = torch.device("cuda:0" if CUDA else "cpu")
+    model = model.to(device)
+
+    return model
+
+
+class ResNetModelWrapper(PythonModel):
+
+    def __init__(self):
+        self.model = get_resnet_based_model()
+
+    def load_context(self, context):
+        checkpoint = torch.load(context.artifacts['model_path'])
+        self.model.load_state_dict(checkpoint['model_state'])
+
+    def predict(self, context, input_video_path):
+        # TO DO !!!!
+        return None
 
 
 class EarlyStopping:

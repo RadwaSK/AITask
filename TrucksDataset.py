@@ -19,7 +19,6 @@ class TrucksDataset(Dataset):
     def __getitem__(self, index):
         label = self.df.iloc[index, 1]
         label = self.classes_dic[label]
-        assert label.dtype == int
         assert 0 <= label < 8
 
         path = self.df.iloc[index, 0]
