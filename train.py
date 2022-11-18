@@ -146,8 +146,8 @@ with ml.start_run(experiment_id=experiment_ID) as r:
             epoch_loss = running_loss / dataset_count[phase]
             acc = accuracy_score(y_trues, y_preds)
             f1 = f1_score(y_trues, y_preds, average='weighted')
-            recall = recall_score(y_trues, y_preds)
-            precision = precision_score(y_trues, y_preds)
+            recall = recall_score(y_trues, y_preds, average='weighted')
+            precision = precision_score(y_trues, y_preds, average='weighted')
 
             if phase == 'train':
                 train_loss.append(epoch_loss)
@@ -175,8 +175,8 @@ with ml.start_run(experiment_id=experiment_ID) as r:
             print('\nF1 Score:\t' + str(f1))
             print('\nRecall:\t' + str(recall))
             print('\nPrecision:\t' + str(precision))
-            print('\nAccuracy: \t' + str(acc))
-            print('\nConfusion Matrix of classes: \t' + confusion_matrix(y_trues, y_preds))
+            print('\nAccuracy:\t' + str(acc))
+            print('\nConfusion Matrix of classes: \n', confusion_matrix(y_trues, y_preds))
             print('\n================================================================================\n')
 
         if finish:
