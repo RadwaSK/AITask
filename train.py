@@ -7,7 +7,7 @@ from torch import optim
 import torch.nn as nn
 import numpy as np
 import matplotlib.pyplot as plt
-from utils import get_resnet_based_model, EarlyStopping, get_classes_dict, save_model
+from utils import get_resnet_based_model, EarlyStopping, get_classes_dict, save_model_resnet
 from dataloader import get_train_val_dataloader
 from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score, confusion_matrix
 
@@ -154,7 +154,7 @@ with ml.start_run(experiment_id=experiment_ID) as r:
                 val_acc.append(acc)
                 if epoch_loss < min_loss:
                     print('\n\n<<<Saving model>>>\n')
-                    save_model(model, optimizer, model_name)
+                    save_model_resnet(model, optimizer, model_name)
                     min_loss = epoch_loss
 
                 early_stopping(last_train_loss, epoch_loss)
