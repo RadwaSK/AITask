@@ -3,12 +3,26 @@ This repo contains code of a classification task of different car types (ex. tru
 
 You will find two branches for different models trained and tested on given datasets
 
-Files inside the repo:
-* dataset (contains train test folders)
+### Files inside the repo:
+* ```data_analysis_ipynb```: notebook for data analysis with insights
 * ```dataloader.py```: has function that prepares dataloaders for the training/test
+* ```prep_csv.py```: preparing csv files from dataset
+* ```test.py```: testing file for dataset
+* ```train.py```: training file
+* ```TrucksDataset.py```: Dataset file
+* ```utils.py```: has some utily functions
 
+### Folders:
+* dataset (contains train test folders)
+* plots (plots drawn during training)
+* saved_models (dvc files of saved models)
 
-Setups used in this repo:
+### Text Files:
+* trials of training and testing output
+
+---------------------------
+
+## Setups used in this repo:
 * DVC for dataset shared on a drive link, to pull data:
   * ```dvc fetch```
   * ```dvc pull```
@@ -18,6 +32,7 @@ Setups used in this repo:
 * Docker image (to do), to run it:
   * docker ...
 
+----------------------
 
 ## To prepare data:
 1. Move dataset into folder ```dataset```
