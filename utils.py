@@ -7,6 +7,35 @@ import torchvision
 import torch.nn as nn
 from mlflow.pyfunc import PythonModel
 
+
+def get_vgg_based_model(freeze_vgg=False, CUDA=True, num_classes=8):
+    model = torchvision.models.vgg16(weights='DEFAULT')
+
+    for param in model.parameters():
+        param.requires_grad = not freeze_vgg
+
+    model.classifier[-1] = nn.Linear(4096, num_classes)
+
+    device = torch.device("cuda:0" if CUDA else "cpu")
+    model = model.to(device)
+
+    return model
+
+
+class VGGModelWrapper(PythonModel):
+
+    def __init__(self):
+        self.model = get_vgg_based_model()
+
+    def load_context(self, context):
+        checkpoint = torch.load(context.artifacts['model_path'])
+        self.model.load_state_dict(checkpoint['model_state'])
+
+    def predict(self, context, input_video_path):
+        # TO DO !!!!
+        return None
+
+
 def get_resnet_based_model(freeze_resnet=False, CUDA=True, num_classes=8):
     model = torchvision.models.resnet50(weights='DEFAULT')
 
@@ -61,7 +90,7 @@ class EarlyStopping:
             self.counter = 0
 
 
-def save_model(model, optim, path):
+def save_model_resnet(model, optim, path):
     conda_env = {
         'channels': ['defaults'],
         'dependencies': [
@@ -79,3 +108,23 @@ def save_model(model, optim, path):
     torch.save({'model_state': model.state_dict(), 'optim_state': optim.state_dict()}, path)
     artifacts = {"model_path": path}
     log_model('model', python_model=ResNetModelWrapper(), conda_env=conda_env, artifacts=artifacts)
+
+
+def save_model_vgg(model, optim, path):
+    conda_env = {
+        'channels': ['defaults'],
+        'dependencies': [
+            'python={}'.format(PYTHON_VERSION),
+            'pip',
+            {
+                'pip': [
+                    'mlflow=={}'.format(mlflow.__version__),
+                    'torch=={}'.format(torch.__version__),
+                ],
+            },
+        ],
+        'name': 'mlflow_env'
+    }
+    torch.save({'model_state': model.state_dict(), 'optim_state': optim.state_dict()}, path)
+    artifacts = {"model_path": path}
+    log_model('model', python_model=VGGModelWrapper(), conda_env=conda_env, artifacts=artifacts)
