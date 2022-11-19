@@ -1,0 +1,5 @@
+outs:
+- md5: 4400c5d5fa7d0dd12da59f98fb237bbc
+  size: 537184709
+  isexec: true
+  path: VGG_4

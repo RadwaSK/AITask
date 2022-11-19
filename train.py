@@ -36,7 +36,8 @@ print(dataset_count)
 use_cuda = torch.cuda.is_available()
 print('CUDA available:', use_cuda)
 device = torch.device("cuda" if use_cuda else "cpu")
-models_path = 'saved_path'
+
+models_path = 'saved_models'
 
 model = get_resnet_based_model(freeze_resnet=False, CUDA=use_cuda)
 

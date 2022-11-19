@@ -1,0 +1,5 @@
+outs:
+- md5: 4d78609eb0cbd00e047078873ccc377c
+  size: 282746043
+  isexec: true
+  path: ResNet_0
