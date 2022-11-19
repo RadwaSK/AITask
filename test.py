@@ -3,7 +3,7 @@ import argparse
 import torch
 from dataloader import get_test_dataloader
 import numpy as np
-from utils import get_vgg_based_model
+from utils import get_resnet_based_model
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, recall_score, precision_score
 
 
@@ -24,7 +24,7 @@ test_data_count = len(dataloader.dataset)
 print("Number of data:", test_data_count)
 
 model_path = 'saved_models'
-model = get_vgg_based_model(CUDA=use_cuda).to(device)
+model = get_resnet_based_model(CUDA=use_cuda).to(device)
 model_name = join(model_path, options.model_name)
 checkpoint = torch.load(model_name)
 model.load_state_dict(checkpoint['model_state'])

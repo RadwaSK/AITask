@@ -7,7 +7,7 @@ from torch import optim
 import torch.nn as nn
 import numpy as np
 import matplotlib.pyplot as plt
-from utils import get_vgg_based_model, EarlyStopping, get_classes_dict, save_model_vgg
+from utils import get_resnet_based_model, EarlyStopping, get_classes_dict, save_model
 from dataloader import get_train_val_dataloader
 from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score, confusion_matrix
 
@@ -21,7 +21,7 @@ parser.add_argument('-b', '--batch_size', type=int, default=8, help='batch size 
 parser.add_argument('-s', '--st_epoch', type=int, default=0, help='start epoch number')
 parser.add_argument('-n', '--n_epochs', type=int, default=20, help='number of epochs')
 parser.add_argument('-l', '--load', type=str, default='n', help='enter y to load saved model, n for not')
-parser.add_argument('-rn', '--run_name', type=str, default='VGG', help='Enter run name for MLFlow')
+parser.add_argument('-rn', '--run_name', type=str, default='ResNet', help='Enter run name for MLFlow')
 
 options = vars(parser.parse_args())
 
@@ -36,11 +36,12 @@ print(dataset_count)
 use_cuda = torch.cuda.is_available()
 print('CUDA available:', use_cuda)
 device = torch.device("cuda" if use_cuda else "cpu")
+
 models_path = 'saved_models'
 
-model = get_vgg_based_model(freeze_vgg=False, CUDA=use_cuda)
+model = get_resnet_based_model(freeze_resnet=False, CUDA=use_cuda)
 
-optimizer = optim.SGD(model.parameters(), lr=0.0001, weight_decay=0.00005)
+optimizer = optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.00005)
 
 if options['load'] == 'y':
     model_name = join(models_path, options['model_name'])
@@ -70,14 +71,14 @@ n_classes = len(classes_dict)
 experiment_name = options['run_name'] + '_' + str(options['run_number'])
 plots_folder = join('plots', experiment_name)
 os.makedirs(plots_folder, exist_ok=True)
-model_name = join(models_path, experiment_name)
+model_name = join(options['model_name'], experiment_name)
 
 experiment_ID = ml.create_experiment(name=experiment_name)
 finish = False
 
 with ml.start_run(experiment_id=experiment_ID) as r:
     ml.log_params(options)
-    ml.log_param('optimizer', 'SGD')
+    ml.log_param('optimizer', 'Adam')
     ml.log_param('Loss', 'CrossEntropy')
     ml.log_param('Using_CUDA', use_cuda)
     ml.log_param('Continue_Learning', (options['load'] == 'y'))
@@ -153,7 +154,7 @@ with ml.start_run(experiment_id=experiment_ID) as r:
                 val_acc.append(acc)
                 if epoch_loss < min_loss:
                     print('\n\n<<<Saving model>>>\n')
-                    save_model_vgg(model, optimizer, model_name)
+                    save_model(model, optimizer, model_name)
                     min_loss = epoch_loss
 
                 early_stopping(last_train_loss, epoch_loss)
