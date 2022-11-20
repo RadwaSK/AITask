@@ -32,7 +32,14 @@ You will find two branches for different models trained and tested on given data
 
 ----------------------
 
-## To prepare data:
-1. Move dataset into folder ```dataset```
-2. Either dvc pull data or run ```prep_csv.py```
+## To start the project:
+1. ```git clone https://github.com/RadwaSK/AITask.git```
+2. ```cd AITask```
+3. Move dataset into folder ```dataset``` (there should be dataset/train and dataset/test, and you would find the csv files cloned with the repo)
+4. Pull docker container ```docker pull radwask/aitask```
+5. Download the attached model ResNet_0 and move it into a folder "saved_models" in the repo folder
+6. To run test script:
+   * ```sudo docker run -v <path to repo>/AITask/dataset:/AITask/dataset -v <path to repo>/AITask/saved_models:/AITask/saved_models --gpus device=0 radwask/aitask python3 test.py -m ResNet_0 -b 4```
+
+### P.S. THIS IS ASSUMING YOU HAVE CUDA ON YOUR DEVICE ! The models are trained with CUDA available.
 
