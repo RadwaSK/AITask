@@ -11,6 +11,7 @@ You will find two branches for different models trained and tested on given data
 * ```train.py```: training file
 * ```TrucksDataset.py```: Dataset file
 * ```utils.py```: has some utily functions
+* ```data_analysis.pdf```: same jupyter notebook file but in pdf
 
 ### Folders:
 * dataset (contains train test folders)
