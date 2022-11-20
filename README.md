@@ -16,9 +16,7 @@ You will find two branches for different models trained and tested on given data
 * dataset (contains train test folders)
 * plots (plots drawn during training)
 * saved_models (dvc files of saved models)
-
-### Text Files:
-* trials of training and testing output
+* trial_runs (text files of outputs of training/testing trials)
 
 ---------------------------
 
