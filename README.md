@@ -1,4 +1,4 @@
-# AITask
+# Car Model Classification
 This repo contains code of a classification task of different car types (ex. trucks, sedan...etc.)
 
 You will find two branches for different models trained and tested on given datasets
